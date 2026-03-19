@@ -1,2 +1,0 @@
-# thinknova
-ThinkNova AI Website                       
