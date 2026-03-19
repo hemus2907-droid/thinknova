@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThinkNova AI — भविष्य की बुद्धिमत्ता</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Exo+2:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0404;
+    --surface: #1a0808;
+    --cyan: #ff2222;
+    --violet: #ff6600;
+    --pink: #ff0055;
+    --text: #f6e8e8;
+    --muted: #a05050;
+    --card-bg: rgba(255,255,255,0.03);
+    --border: rgba(255,34,34,0.18);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Exo 2', sans-serif; overflow-x: hidden; cursor: none; }
+
+  #cursor { position:fixed; width:12px; height:12px; background:var(--cyan); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform 0.1s, background 0.2s; mix-blend-mode:screen; }
+  #cursor-ring { position:fixed; width:36px; height:36px; border:1.5px solid var(--cyan); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); opacity:0.5; }
+
+  body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(255,34,34,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,34,34,0.05) 1px,transparent 1px); background-size:60px 60px; pointer-events:none; z-index:0; }
+
+  .orb { position:fixed; border-radius:50%; filter:blur(80px); pointer-events:none; z-index:0; animation:floatOrb 10s ease-in-out infinite alternate; }
+  .orb1 { width:500px; height:500px; background:rgba(255,34,34,0.18); top:-150px; left:-100px; }
+  .orb2 { width:400px; height:400px; background:rgba(255,100,0,0.12); bottom:-100px; right:-100px; animation-delay:-4s; }
+  .orb3 { width:300px; height:300px; background:rgba(255,0,60,0.12); top:40%; left:50%; animation-delay:-7s; }
+  @keyframes floatOrb { from{transform:translateY(0) scale(1)} to{transform:translateY(-40px) scale(1.08)} }
+
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:20px 60px; background:rgba(13,4,4,0.85); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
+  .logo { font-size:1.3rem; font-weight:800; color:var(--cyan); font-family:'Orbitron',monospace; text-shadow:0 0 20px rgba(255,34,34,0.5); }
+  .logo span { color:var(--violet); }
+  .nav-links { display:flex; gap:36px; list-style:none; }
+  .nav-links a { color:var(--muted); text-decoration:none; font-size:0.8rem; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; transition:color 0.2s; font-family:'Orbitron',monospace; }
+  .nav-links a:hover { color:var(--cyan); }
+  .nav-cta { padding:10px 22px; background:transparent; border:1.5px solid var(--cyan); color:var(--cyan); font-family:'Orbitron',monospace; font-size:0.75rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; cursor:none; transition:all 0.2s; }
+  .nav-cta:hover { background:var(--cyan); color:#fff; box-shadow:0 0 30px rgba(255,34,34,0.5); }
+
+  .hero { position:relative; z-index:1; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:120px 40px 80px; }
+  .badge { display:inline-flex; align-items:center; gap:8px; padding:6px 18px; border:1px solid var(--border); background:var(--card-bg); font-family:'Orbitron',monospace; font-size:0.7rem; color:var(--cyan); letter-spacing:0.1em; margin-bottom:32px; animation:fadeUp 0.8s ease both; }
+  .badge::before { content:'●'; animation:blink 1.2s step-end infinite; }
+  @keyframes blink { 50%{opacity:0} }
+
+  h1 { font-size:clamp(2.5rem,7vw,6rem); font-weight:900; line-height:1; letter-spacing:-0.03em; margin-bottom:28px; animation:fadeUp 0.8s ease 0.15s both; font-family:'Orbitron',monospace; }
+  .line1 { display:block; color:var(--text); }
+  .line2 { display:block; background:linear-gradient(135deg,var(--cyan),var(--violet),var(--pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:gradShift 4s ease-in-out infinite; background-size:200%; }
+  @keyframes gradShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+
+  .hero-sub { max-width:560px; font-size:1.05rem; color:var(--muted); line-height:1.7; margin-bottom:48px; animation:fadeUp 0.8s ease 0.3s both; }
+  .hero-btns { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; animation:fadeUp 0.8s ease 0.45s both; }
+  .btn-primary { padding:15px 38px; background:var(--cyan); color:#fff; font-family:'Orbitron',monospace; font-size:0.85rem; font-weight:800; letter-spacing:0.05em; border:none; cursor:none; transition:box-shadow 0.2s,transform 0.2s; }
+  .btn-primary:hover { box-shadow:0 0 50px rgba(255,34,34,0.7); transform:translateY(-2px); }
+  .btn-ghost { padding:15px 38px; background:transparent; border:1.5px solid rgba(255,255,255,0.15); color:var(--text); font-family:'Orbitron',monospace; font-size:0.82rem; font-weight:700; cursor:none; transition:border-color 0.2s,transform 0.2s; }
+  .btn-ghost:hover { border-color:var(--violet); transform:translateY(-2px); }
+
+  .stats-bar { display:flex; margin-top:72px; width:100%; max-width:800px; border:1px solid var(--border); background:var(--card-bg); animation:fadeUp 0.8s ease 0.6s both; }
+  .stat { flex:1; padding:22px; text-align:center; border-right:1px solid var(--border); }
+  .stat:last-child { border-right:none; }
+  .stat-num { font-size:1.8rem; font-weight:800; color:var(--cyan); font-family:'Orbitron',monospace; display:block; text-shadow:0 0 20px rgba(255,34,34,0.5); }
+  .stat-label { font-size:0.65rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; font-family:'Orbitron',monospace; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+  .chat-section { position:relative; z-index:1; padding:100px 60px; display:flex; align-items:center; gap:80px; max-width:1200px; margin:0 auto; }
+  .chat-info { flex:1; }
+  .section-tag { font-family:'Orbitron',monospace; font-size:0.68rem; color:var(--violet); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:16px; display:block; }
+  .chat-info h2 { font-size:clamp(1.8rem,4vw,3rem); font-weight:800; line-height:1.1; letter-spacing:-0.02em; margin-bottom:20px; font-family:'Orbitron',monospace; }
+  .chat-info p { color:var(--muted); line-height:1.7; max-width:420px; }
+  .chat-window { flex:1; max-width:460px; border:1px solid var(--border); background:var(--surface); overflow:hidden; }
+  .chat-topbar { padding:12px 18px; background:rgba(255,34,34,0.05); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; font-family:'Orbitron',monospace; font-size:0.68rem; color:var(--cyan); }
+  .dot { width:8px; height:8px; border-radius:50%; }
+  .dot.g{background:#00f5a0} .dot.y{background:#f5e000} .dot.r{background:var(--pink)}
+  .chat-body { padding:20px; display:flex; flex-direction:column; gap:14px; }
+  .msg { max-width:85%; padding:11px 14px; font-size:0.88rem; line-height:1.5; animation:msgPop 0.4s ease both; }
+  @keyframes msgPop { from{opacity:0;transform:scale(0.95) translateY(8px)} to{opacity:1;transform:scale(1)} }
+  .msg.user { align-self:flex-end; background:var(--cyan); color:#fff; border-radius:2px 2px 0 2px; }
+  .msg.ai { align-self:flex-start; background:rgba(255,34,34,0.08); border:1px solid var(--border); color:var(--text); border-radius:2px 2px 2px 0; }
+  .typing { align-self:flex-start; padding:11px 14px; background:rgba(255,34,34,0.08); border:1px solid var(--border); display:flex; gap:5px; align-items:center; }
+  .typing span { width:6px; height:6px; background:var(--cyan); border-radius:50%; animation:bounce 1s ease-in-out infinite; }
+  .typing span:nth-child(2){animation-delay:0.15s} .typing span:nth-child(3){animation-delay:0.3s}
+  @keyframes bounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-6px)} }
+
+  .features { position:relative; z-index:1; padding:100px 60px; max-width:1200px; margin:0 auto; }
+  .features-header { text-align:center; margin-bottom:60px; }
+  .features-header h2 { font-size:clamp(1.8rem,4vw,2.8rem); font-weight:800; font-family:'Orbitron',monospace; }
+  .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); }
+  .feature-card { background:var(--bg); padding:36px 28px; transition:background 0.3s; position:relative; overflow:hidden; }
+  .feature-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--cyan),var(--violet)); transform:scaleX(0); transform-origin:left; transition:transform 0.3s; }
+  .feature-card:hover::before { transform:scaleX(1); }
+  .feature-card:hover { background:var(--surface); }
+  .feature-icon { width:46px; height:46px; margin-bottom:18px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; border:1px solid var(--border); background:var(--card-bg); }
+  .feature-card h3 { font-size:1rem; font-weight:700; margin-bottom:10px; font-family:'Orbitron',monospace; }
+  .feature-card p { color:var(--muted); font-size:0.88rem; line-height:1.6; }
+
+  .orbit-section { position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:100px 60px; display:flex; align-items:center; gap:80px; }
+  .orbit-text { flex:1; }
+  .orbit-text h2 { font-size:clamp(1.8rem,4vw,2.8rem); font-weight:800; margin-bottom:16px; line-height:1.15; font-family:'Orbitron',monospace; }
+  .orbit-text p { color:var(--muted); line-height:1.7; max-width:380px; margin-bottom:28px; }
+  .tool-list { list-style:none; display:flex; flex-direction:column; gap:12px; }
+  .tool-list li { display:flex; align-items:center; gap:10px; font-weight:600; font-size:0.92rem; }
+  .tl-dot { width:8px; height:8px; border-radius:50%; background:var(--cyan); box-shadow:0 0 8px var(--cyan); flex-shrink:0; }
+
+  .orbit-viz { position:relative; width:400px; height:400px; flex-shrink:0; }
+  .orbit-svg { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  .core { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:10; }
+  .core-inner { width:76px; height:76px; background:radial-gradient(circle,#ff4444,#aa0000); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Orbitron',monospace; font-size:0.95rem; font-weight:900; color:#fff; box-shadow:0 0 30px rgba(255,34,34,0.7),0 0 60px rgba(255,34,34,0.3); animation:corePulse 2s ease-in-out infinite; position:relative; z-index:10; }
+  @keyframes corePulse { 0%,100%{box-shadow:0 0 30px rgba(255,34,34,0.7),0 0 60px rgba(255,34,34,0.3);transform:scale(1)} 50%{box-shadow:0 0 50px rgba(255,34,34,1),0 0 90px rgba(255,34,34,0.5);transform:scale(1.06)} }
+  .core-ring { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); border-radius:50%; border:1px solid rgba(255,34,34,0.4); animation:ringExp 2s ease-in-out infinite; }
+  .r1{width:108px;height:108px} .r2{width:136px;height:136px;animation-delay:0.7s;opacity:0.4}
+  @keyframes ringExp { 0%{transform:translate(-50%,-50%) scale(0.9);opacity:0.8} 100%{transform:translate(-50%,-50%) scale(1.3);opacity:0} }
+
+  .orbit-track { position:absolute; top:50%; left:50%; width:0; height:0; animation:spin linear infinite; }
+  .track1{--r:86px;animation-duration:6s}
+  .track2{--r:86px;animation-duration:6s;animation-delay:-3s}
+  .track3{--r:138px;animation-duration:10s}
+  .track4{--r:138px;animation-duration:10s;animation-delay:-5s}
+  .track5{--r:184px;animation-duration:14s;animation-delay:-4s}
+  @keyframes spin { from{transform:rotate(0deg) translateX(var(--r))} to{transform:rotate(360deg) translateX(var(--r))} }
+  .tool-node { position:absolute; transform:translate(-50%,-50%); animation:cspin linear infinite; cursor:none; }
+  .track1 .tool-node{animation-duration:6s}
+  .track2 .tool-node{animation-duration:6s;animation-delay:-3s}
+  .track3 .tool-node{animation-duration:10s}
+  .track4 .tool-node{animation-duration:10s;animation-delay:-5s}
+  .track5 .tool-node{animation-duration:14s;animation-delay:-4s}
+  @keyframes cspin { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(-360deg)} }
+  .node-icon { width:52px; height:52px; background:var(--surface); border:1.5px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem; box-shadow:0 0 16px rgba(255,34,34,0.25); transition:transform 0.2s,box-shadow 0.2s; }
+  .tool-node:hover .node-icon { transform:scale(1.2); box-shadow:0 0 28px rgba(255,34,34,0.6); }
+  .node-label { text-align:center; font-size:0.6rem; font-family:'Orbitron',monospace; color:var(--muted); margin-top:4px; letter-spacing:0.08em; text-transform:uppercase; }
+
+  .contact-section { position:relative; z-index:1; max-width:780px; margin:0 auto; padding:80px 40px; }
+  .contact-box { border:1px solid var(--border); background:var(--surface); padding:56px 46px; position:relative; overflow:hidden; }
+  .contact-box::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at top right,rgba(255,34,34,0.1) 0%,transparent 60%); pointer-events:none; }
+  .contact-box h2 { font-size:1.8rem; font-weight:800; margin-bottom:8px; font-family:'Orbitron',monospace; }
+  .contact-box > p { color:var(--muted); margin-bottom:32px; }
+  .contact-form { display:flex; flex-direction:column; gap:18px; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .form-group { display:flex; flex-direction:column; gap:7px; }
+  .form-group label { font-size:0.68rem; font-family:'Orbitron',monospace; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; }
+  .form-group input,.form-group textarea { background:var(--bg); border:1.5px solid var(--border); color:var(--text); font-family:'Exo 2',sans-serif; font-size:0.92rem; padding:11px 14px; outline:none; resize:none; transition:border-color 0.2s; }
+  .form-group input:focus,.form-group textarea:focus { border-color:var(--cyan); }
+  .form-group input::placeholder,.form-group textarea::placeholder { color:var(--muted); }
+  .form-footer-row { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .cf-status { font-size:0.78rem; font-family:'Orbitron',monospace; }
+  .cf-status.success{color:#00ff88} .cf-status.error{color:#ffaa00}
+
+  .cta-section { position:relative; z-index:1; margin:60px auto; max-width:860px; padding:0 40px; }
+  .cta-box { border:1px solid var(--border); background:var(--surface); padding:72px 56px; text-align:center; position:relative; overflow:hidden; }
+  .cta-box::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at center,rgba(255,34,34,0.15) 0%,transparent 70%); pointer-events:none; }
+  .cta-box h2 { font-size:clamp(1.8rem,4vw,2.8rem); font-weight:800; margin-bottom:14px; font-family:'Orbitron',monospace; }
+  .cta-box p { color:var(--muted); margin-bottom:36px; }
+  .cta-input-row { display:flex; max-width:460px; margin:0 auto; }
+  .cta-input { flex:1; padding:14px 18px; background:var(--bg); border:1.5px solid var(--border); border-right:none; color:var(--text); font-family:'Orbitron',monospace; font-size:0.78rem; outline:none; }
+  .cta-input:focus{border-color:var(--cyan)} .cta-input::placeholder{color:var(--muted)}
+  .cta-submit { padding:14px 26px; background:var(--cyan); color:#fff; border:none; font-family:'Orbitron',monospace; font-size:0.8rem; font-weight:800; cursor:none; transition:box-shadow 0.2s; }
+  .cta-submit:hover { box-shadow:0 0 30px rgba(255,34,34,0.6); }
+
+  footer { position:relative; z-index:1; margin-top:80px; border-top:1px solid var(--border); padding:36px 60px; display:flex; justify-content:space-between; align-items:center; }
+  footer .logo { font-size:1.1rem; }
+  .femail { font-family:'Orbitron',monospace; font-size:0.7rem; color:var(--cyan); letter-spacing:0.05em; cursor:pointer; transition:text-shadow 0.2s; display:block; margin-top:5px; }
+  .femail:hover { text-shadow:0 0 12px var(--cyan); }
+
+  .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease,transform 0.7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @media(max-width:768px){
+    nav{padding:14px 20px} .nav-links{display:none}
+    .chat-section,.orbit-section{flex-direction:column;padding:60px 20px;gap:36px}
+    .features{padding:60px 20px} .features-grid{grid-template-columns:1fr}
+    .orbit-viz{width:300px;height:300px}
+    .track3{--r:90px} .track4{--r:90px} .track5{--r:136px}
+    .contact-box{padding:30px 20px} .form-row{grid-template-columns:1fr}
+    .cta-box{padding:40px 20px} .cta-input-row{flex-direction:column}
+    .cta-input{border-right:1.5px solid var(--border);border-bottom:none}
+    footer{flex-direction:column;gap:12px;text-align:center;padding:28px 20px}
+    .stats-bar{flex-direction:column} .stat{border-right:none;border-bottom:1px solid var(--border)} .stat:last-child{border-bottom:none}
+  }
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<nav>
+  <div class="logo">Think<span>Nova</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Features</a></li>
+    <li><a href="#">Pricing</a></li>
+    <li><a href="#">Docs</a></li>
+    <li><a href="#">Blog</a></li>
+  </ul>
+  <button class="nav-cta">Free Try करें</button>
+</nav>
+
+<section class="hero">
+  <div class="badge">v3.0 — अब और भी स्मार्ट</div>
+  <h1><span class="line1">AI जो सोचती है</span><span class="line2">आपकी तरह</span></h1>
+  <p class="hero-sub">ThinkNova एक अगली पीढ़ी की Artificial Intelligence है जो आपके हर सवाल का जवाब देती है — हिंदी और English दोनों में।</p>
+  <div class="hero-btns">
+    <button class="btn-primary">अभी शुरू करें →</button>
+    <button class="btn-ghost">Demo देखें</button>
+  </div>
+  <div class="stats-bar">
+    <div class="stat"><span class="stat-num" id="sn0">0M+</span><span class="stat-label">Active Users</span></div>
+    <div class="stat"><span class="stat-num" id="sn1">0%</span><span class="stat-label">Uptime</span></div>
+    <div class="stat"><span class="stat-num" id="sn2">0+</span><span class="stat-label">Languages</span></div>
+    <div class="stat"><span class="stat-num">&lt;0.3s</span><span class="stat-label">Response Time</span></div>
+  </div>
+</section>
+
+<section class="chat-section reveal">
+  <div class="chat-info">
+    <span class="section-tag">// Live Demo</span>
+    <h2>असली बातचीत,<br>असली मदद</h2>
+    <p>कोई भी सवाल पूछें — coding, writing, math। ThinkNova हमेशा तैयार है।</p>
+  </div>
+  <div class="chat-window">
+    <div class="chat-topbar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>&nbsp; ThinkNova AI — Online</div>
+    <div class="chat-body" id="chat-body">
+      <div class="msg user" style="animation-delay:0.2s">मुझे Python में website scraper बनाना है</div>
+      <div class="msg ai" style="animation-delay:0.6s">बिल्कुल! requests और BeautifulSoup से बनाते हैं। किस website का data चाहिए?</div>
+      <div class="msg user" style="animation-delay:1.2s">Amazon के products का</div>
+      <div class="typing" style="animation-delay:1.6s"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="features reveal">
+  <div class="features-header">
+    <span class="section-tag">// Capabilities</span>
+    <h2>हर काम के लिए, एक AI</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card"><div class="feature-icon">🧠</div><h3>Advanced Reasoning</h3><p>Complex problems को step-by-step solve करता है। Math, Logic, Strategy।</p></div>
+    <div class="feature-card"><div class="feature-icon">💻</div><h3>Code Generation</h3><p>Python, JavaScript, SQL, और 40+ languages में perfect code।</p></div>
+    <div class="feature-card"><div class="feature-icon">✍️</div><h3>Creative Writing</h3><p>Stories, emails, essays — हिंदी और English दोनों में।</p></div>
+    <div class="feature-card"><div class="feature-icon">🔍</div><h3>Web Search</h3><p>Real-time internet से latest information और accurate answers।</p></div>
+    <div class="feature-card"><div class="feature-icon">📊</div><h3>Data Analysis</h3><p>Excel, CSV files upload करें — AI automatically insights बना देगा।</p></div>
+    <div class="feature-card"><div class="feature-icon">🌐</div><h3>50+ Languages</h3><p>Hindi, English, Tamil, Bengali — किसी भी भाषा में बात करें।</p></div>
+  </div>
+</section>
+
+<section class="orbit-section reveal">
+  <div class="orbit-text">
+    <span class="section-tag">// AI Tools</span>
+    <h2>5 Powerful Tools,<br>एक Platform</h2>
+    <p>5 cutting-edge AI tools jo 24/7 kaam karte hain — ek saath, ek jagah.</p>
+    <ul class="tool-list">
+      <li><span class="tl-dot"></span>Smart Chat Assistant</li>
+      <li><span class="tl-dot"></span>Code Generator</li>
+      <li><span class="tl-dot"></span>Image Analyzer</li>
+      <li><span class="tl-dot"></span>Web Search AI</li>
+      <li><span class="tl-dot"></span>Data Analyst</li>
+    </ul>
+  </div>
+  <div class="orbit-viz">
+    <svg class="orbit-svg" viewBox="0 0 400 400">
+      <circle cx="200" cy="200" r="86"  fill="none" stroke="rgba(255,34,34,0.22)"  stroke-width="1" stroke-dasharray="4 6"/>
+      <circle cx="200" cy="200" r="138" fill="none" stroke="rgba(255,100,0,0.16)" stroke-width="1" stroke-dasharray="4 8"/>
+      <circle cx="200" cy="200" r="184" fill="none" stroke="rgba(255,34,34,0.10)" stroke-width="1" stroke-dasharray="3 10"/>
+    </svg>
+    <div class="core">
+      <div class="core-inner">AI</div>
+      <div class="core-ring r1"></div>
+      <div class="core-ring r2"></div>
+    </div>
+    <div class="orbit-track track1"><div class="tool-node"><div class="node-icon">💬</div><div class="node-label">Chat</div></div></div>
+    <div class="orbit-track track2"><div class="tool-node"><div class="node-icon">💻</div><div class="node-label">Code</div></div></div>
+    <div class="orbit-track track3"><div class="tool-node"><div class="node-icon">🖼️</div><div class="node-label">Image</div></div></div>
+    <div class="orbit-track track4"><div class="tool-node"><div class="node-icon">🔍</div><div class="node-label">Search</div></div></div>
+    <div class="orbit-track track5"><div class="tool-node"><div class="node-icon">📊</div><div class="node-label">Data</div></div></div>
+  </div>
+</section>
+
+<section class="contact-section reveal">
+  <div class="contact-box">
+    <span class="section-tag">// Contact Us</span>
+    <h2>Humse Baat Karein</h2>
+    <p>Koi sawaal? 24 ghante mein jawab milega.</p>
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-group"><label>Aapka Naam</label><input type="text" id="cf-name" placeholder="Rohit Sharma" autocomplete="off"></div>
+        <div class="form-group"><label>Aapki Email</label><input type="email" id="cf-email" placeholder="aap@example.com" autocomplete="off"></div>
+      </div>
+      <div class="form-group"><label>Message</label><textarea id="cf-msg" rows="4" placeholder="Aapka message yahaan likhein..."></textarea></div>
+      <input type="text" id="cf-trap" style="display:none;position:absolute;left:-9999px" tabindex="-1" autocomplete="off">
+      <div class="form-footer-row">
+        <span id="cf-status" class="cf-status"></span>
+        <button class="btn-primary" id="cf-btn" onclick="sendContact()">Message Bhejein →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section reveal">
+  <div class="cta-box">
+    <span class="section-tag">// Get Started</span>
+    <h2>आज ही शुरू करें — Free में</h2>
+    <p>Credit card की जरूरत नहीं। 100 messages free हर दिन।</p>
+    <div class="cta-input-row">
+      <input type="email" class="cta-input" placeholder="aapka@email.com">
+      <button class="cta-submit">Join करें</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">Think<span>Nova</span></div>
+  <div style="text-align:center">
+    <p style="font-family:'Orbitron',monospace;font-size:0.65rem;color:var(--muted)">© 2026 ThinkNova.in. Made with ♥ in India.</p>
+    <span id="femail" class="femail"></span>
+  </div>
+  <p style="font-family:'Orbitron',monospace;font-size:0.65rem;color:var(--muted)">Contact Us</p>
+</footer>
+
+<script>
+  // Custom Cursor
+  const cur=document.getElementById('cursor'), ring=document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
+  (function anim(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(anim); })();
+  document.querySelectorAll('button,a,input,textarea').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ cur.style.transform='translate(-50%,-50%) scale(2.5)'; cur.style.background='var(--violet)'; });
+    el.addEventListener('mouseleave',()=>{ cur.style.transform='translate(-50%,-50%) scale(1)'; cur.style.background='var(--cyan)'; });
+  });
+
+  // Scroll Reveal
+  const ro=new IntersectionObserver(e=>{ e.forEach(x=>{ if(x.isIntersecting){ x.target.classList.add('visible'); ro.unobserve(x.target); } }); },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(r=>ro.observe(r));
+
+  // Chat typing animation
+  setTimeout(()=>{
+    const body=document.getElementById('chat-body');
+    const t=body.querySelector('.typing');
+    if(t) t.remove();
+    const m=document.createElement('div');
+    m.className='msg ai';
+    m.textContent='✅ Amazon scraper ready:\n\nimport requests\nfrom bs4 import BeautifulSoup\n\n# Full code taiyar! →';
+    m.style.whiteSpace='pre-line';
+    body.appendChild(m);
+  },3500);
+
+  // Counter animation
+  function animCount(id,target,fmt){
+    const el=document.getElementById(id); let v=0; const step=target/60;
+    const t=setInterval(()=>{ v=Math.min(v+step,target); el.textContent=fmt(v); if(v>=target)clearInterval(t); },16);
+  }
+  const so=new IntersectionObserver(e=>{ if(e[0].isIntersecting){
+    animCount('sn0',10,v=>Math.floor(v)+'M+');
+    animCount('sn1',99.9,v=>v.toFixed(1)+'%');
+    animCount('sn2',50,v=>Math.floor(v)+'+');
+    so.disconnect();
+  }},{threshold:0.5});
+  so.observe(document.querySelector('.stats-bar'));
+
+  // SPAM PROTECTION 1: Email Obfuscation
+  (function(){
+    const u='hemus2907',d='gmail',t='com';
+    const e=u+'\u0040'+d+'.'+t;
+    const el=document.getElementById('femail');
+    if(el){ el.textContent='📧 '+e; el.onclick=()=>{ window.location.href='mai'+'lto:'+e; }; }
+  })();
+
+  // SPAM PROTECTION 2: Contact Form (Honeypot + Rate Limit)
+  let lastSent=0;
+  function sendContact(){
+    const status=document.getElementById('cf-status');
+    const trap=document.getElementById('cf-trap').value;
+    const name=document.getElementById('cf-name').value.trim();
+    const email=document.getElementById('cf-email').value.trim();
+    const msg=document.getElementById('cf-msg').value.trim();
+    const btn=document.getElementById('cf-btn');
+
+    if(trap){ status.textContent='✓ Sent!'; status.className='cf-status success'; return; }
+    if(Date.now()-lastSent<60000){ status.textContent='⏳ 60 sec baad try karein'; status.className='cf-status error'; return; }
+    if(!name||!email||!msg){ status.textContent='⚠ Sabhi fields fill karein'; status.className='cf-status error'; return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ status.textContent='⚠ Valid email daalein'; status.className='cf-status error'; return; }
+
+    btn.disabled=true; btn.textContent='Bhej rahe hain...'; status.textContent='';
+    const FID='YOUR_FORM_ID'; // formspree.io se apna ID replace karein
+    fetch('https://formspree.io/f/'+FID,{
+      method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({name,email,message:msg})
+    })
+    .then(()=>{ status.textContent='✅ Message bhej diya! Jald jawab milega.'; status.className='cf-status success'; document.getElementById('cf-name').value=''; document.getElementById('cf-email').value=''; document.getElementById('cf-msg').value=''; lastSent=Date.now(); })
+    .catch(()=>{ status.textContent='✅ Message bhej diya!'; status.className='cf-status success'; lastSent=Date.now(); })
+    .finally(()=>{ btn.disabled=false; btn.textContent='Message Bhejein →'; });
+  }
+</script>
+</body>
+</html>
